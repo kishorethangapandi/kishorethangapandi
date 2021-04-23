@@ -12,6 +12,7 @@ import { ProductService } from '../service/product.service';
 export class ProductCreateComponent implements OnInit {
   productForm: FormGroup;
   valid: boolean = false;
+  imageUrl: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,6 +37,16 @@ export class ProductCreateComponent implements OnInit {
     return this.productForm.controls;
   }
 
+  handleFileInput(file: FileList) {
+    let fileToUpload = file.item(0);
+    //Show image preview
+    let reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.imageUrl = event.target.result;
+    };
+    reader.readAsDataURL(fileToUpload);
+  }
+
   saveProduct() {
     this.valid = true;
     let product: IProduct = {};
@@ -45,6 +56,9 @@ export class ProductCreateComponent implements OnInit {
       product.description = this.productForm.value.description;
       product.price = this.productForm.value.price;
       product.information = this.productForm.value.information;
+      if (this.imageUrl) {
+        product.imageURL = this.imageUrl;
+      }
       this.productService.createProduct(product);
       alert("Product saved successfully");
       this.router.navigateByUrl('/manage-products')
@@ -59,5 +73,6 @@ export class ProductCreateComponent implements OnInit {
 
   clearProduct() {
     this.productForm.reset();
+    this.imageUrl = null;
   }
 }

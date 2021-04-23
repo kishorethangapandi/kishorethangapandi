@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { IProduct } from '../model/product.model';
 import { ProductService } from '../service/product.service';
 
 @Component({
-  selector: 'app-product-update',
-  templateUrl: './product-update.component.html',
-  styleUrls: ['./product-update.component.scss']
+  selector: 'app-product-detail',
+  templateUrl: './product-detail.component.html',
+  styleUrls: ['./product-detail.component.scss']
 })
-export class ProductUpdateComponent implements OnInit {
+export class ProductDetailComponent implements OnInit {
   productForm: FormGroup;
   products: IProduct[] = [];
   valid: boolean = false;
@@ -19,7 +19,6 @@ export class ProductUpdateComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private productService: ProductService,
-    private router: Router,
     private activatedRoute: ActivatedRoute
   ) { }
 
@@ -61,40 +60,12 @@ export class ProductUpdateComponent implements OnInit {
         description: productItem.description,
         price: productItem.price,
         information: productItem.information
-      })
+      });
+      this.productForm.get('name').disable();
+      this.productForm.get('description').disable();
+      this.productForm.get('price').disable();
+      this.productForm.get('information').disable();
     }
   }
 
-  handleFileInput(file: FileList) {
-    let fileToUpload = file.item(0);
-    //Show image preview
-    let reader = new FileReader();
-    reader.onload = (event: any) => {
-      this.imageUrl = event.target.result;
-    };
-    reader.readAsDataURL(fileToUpload);
-  }
-
-  saveProduct() {
-    this.valid = true;
-    let product: IProduct = {};
-    if (this.productForm.valid) {
-      product.id = this.productId;
-      product.name = this.productForm.value.name;
-      product.description = this.productForm.value.description;
-      product.price = this.productForm.value.price;
-      product.information = this.productForm.value.information;
-      if (this.imageUrl) {
-        product.imageURL = this.imageUrl;
-      }
-      this.productService.updateProduct(product);
-      alert("Product updated successfully");
-      this.router.navigateByUrl('/manage-products')
-    }
-  }
-
-  clearProduct() {
-    this.productForm.reset();
-    this.imageUrl = null;
-  }
 }
