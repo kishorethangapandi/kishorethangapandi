@@ -3,7 +3,8 @@ export interface IProduct {
     name?: string,
     description?: string,
     price?: number,
-    information?: string
+    information?: string,
+    imageURL?: string
 }
 export class Product implements IProduct {
     constructor(
@@ -11,7 +12,8 @@ export class Product implements IProduct {
         public name?: string,
         public description?: string,
         public price?: number,
-        public information?: string
+        public information?: string,
+        public imageURL?: string
     ) { }
 }
 

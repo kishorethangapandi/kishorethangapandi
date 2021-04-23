@@ -35,6 +35,9 @@
                 </td>
                 <td data-column="Action(s)">
                     <div class="d-flex justify-content-start align-items-start">
+                        <a class="btn btn-primary" [routerLink]="['/', data.id, 'view-product']">
+                            View
+                        </a>
                         <a class="btn btn-success" [routerLink]="['/', data.id, 'edit-product']">
                             Edit
                         </a>

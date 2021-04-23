@@ -36,6 +36,11 @@
             <input type="text" class="form-control" formControlName="information"
                 placeholder="Enter additional information">
         </div>
+        <div class="mb-2">
+            <label>Image</label>
+            <input type="file" class="form-control" (change)="handleFileInput($event.target.files)" />
+            <img *ngIf="imageUrl" [src]="imageUrl" class="w-100">
+        </div>
     </div>
     <div class="d-flex justify-content-start align-items-start">
         <div class="btn btn-success" (click)="saveProduct()">
